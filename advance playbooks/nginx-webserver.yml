@@ -1,0 +1,22 @@
+---
+- name: Deploy and configure NGINX web server
+  hosts: webservers
+  become: yes
+
+  tasks:
+
+    - name: Update package cache
+      ansible.builtin.apt:
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Install NGINX
+      ansible.builtin.package:
+        name: nginx
+        state: present
+
+    - name: Ensure NGINX is running
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
