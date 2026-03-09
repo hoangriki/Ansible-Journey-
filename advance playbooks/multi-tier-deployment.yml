@@ -1,0 +1,35 @@
+---
+- name: Deploy web tier
+  hosts: webservers
+  become: yes
+
+  tasks:
+
+    - name: Install NGINX
+      ansible.builtin.package:
+        name: nginx
+        state: present
+
+    - name: Start NGINX
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+
+- name: Configure database tier
+  hosts: databases
+  become: yes
+
+  tasks:
+
+    - name: Install MySQL
+      ansible.builtin.package:
+        name: mysql-server
+        state: present
+
+    - name: Ensure MySQL is running
+      ansible.builtin.service:
+        name: mysql
+        state: started
+        enabled: true
