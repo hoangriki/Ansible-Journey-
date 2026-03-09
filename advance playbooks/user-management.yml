@@ -1,0 +1,20 @@
+Creates users and configures SSH access.
+---
+- name: Manage system users
+  hosts: all
+  become: yes
+
+  vars:
+    users:
+      - devops
+      - automation
+
+  tasks:
+
+    - name: Create users
+      ansible.builtin.user:
+        name: "{{ item }}"
+        state: present
+        groups: sudo
+        shell: /bin/bash
+      loop: "{{ users }}"
