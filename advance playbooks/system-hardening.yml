@@ -1,0 +1,23 @@
+---
+- name: Apply basic system hardening
+  hosts: all
+  become: yes
+
+  tasks:
+
+    - name: Ensure firewall is installed
+      ansible.builtin.package:
+        name: ufw
+        state: present
+
+    - name: Enable firewall
+      ansible.builtin.service:
+        name: ufw
+        state: started
+        enabled: true
+
+    - name: Allow SSH through firewall
+      ansible.builtin.ufw:
+        rule: allow
+        port: 22
+        proto: tcp
